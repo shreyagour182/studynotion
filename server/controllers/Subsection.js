@@ -1,5 +1,4 @@
 // Import necessary modules
-const { data } = require("react-router-dom");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
@@ -10,7 +9,7 @@ exports.createSubSection = async (req, res) => {
       // Extract necessary information from the request body
       const { sectionId, title, description } = req.body;
       const video = req.files.video
-  
+
       // Check if all necessary fields are provided
       if (!sectionId || !title || !description || !video ) {
         return res
@@ -18,12 +17,12 @@ exports.createSubSection = async (req, res) => {
           .json({ success: false, message: "All Fields are Required" })
       }
       console.log(video)
-  
+
       // Upload the video file to Cloudinary
       const uploadDetails = await uploadImageToCloudinary(
         video,
         process.env.FOLDER_NAME
-      )// isse ek secure url nikl k ata h 
+      )// isse ek secure url nikl k ata h
       console.log(uploadDetails)
       // Create a new sub-section with the necessary information
       const SubSectionDetails = await SubSection.create({
@@ -32,14 +31,14 @@ exports.createSubSection = async (req, res) => {
         description: description,
         videoUrl: uploadDetails.secure_url,
       })
-  
+
       // Update the corresponding section with the newly created sub-section
       const updatedSection = await Section.findByIdAndUpdate(
         { _id: sectionId },
         { $push: { subSection: SubSectionDetails._id } },
         { new: true }
       ).populate("subSection")
-  
+
       // Return the updated section in the response
       return res.status(200).json({ success: true, data: updatedSection })
     } catch (error) {
@@ -52,23 +51,23 @@ exports.createSubSection = async (req, res) => {
       })
     }
   }
-  
+
   exports.updateSubSection = async (req, res) => {
     try {
       const { sectionId, title, description , subSectionId} = req.body
       const subSection = await SubSection.findById(subSectionId)
-  
+
       if (!subSection) {
         return res.status(404).json({
           success: false,
           message: "SubSection not found",
         })
       }
-  
+
       if (title !== undefined) {
         subSection.title = title
       }
-  
+
       if (description !== undefined) {
         subSection.description = description
       }
@@ -81,9 +80,9 @@ exports.createSubSection = async (req, res) => {
         subSection.videoUrl = uploadDetails.secure_url
         subSection.timeDuration = `${uploadDetails.duration}`
       }
-  
+
       await subSection.save()
-  
+
       const updatedSection = await Section.findById(sectionId).populate("subSection");
 
       return res.json({
@@ -101,7 +100,7 @@ exports.createSubSection = async (req, res) => {
       })
     }
   }
-  
+
   exports.deleteSubSection = async (req, res) => {
     try {
       const { subSectionId, sectionId } = req.body;
@@ -114,7 +113,7 @@ exports.createSubSection = async (req, res) => {
         }
       )
       const subSection = await SubSection.findByIdAndDelete({ _id: subSectionId })
-  
+
       if (!subSection) {
         return res
           .status(404)
@@ -122,7 +121,7 @@ exports.createSubSection = async (req, res) => {
       }
 
       const updatedSection = await Section.findById(sectionId).populate("subSection");
-  
+
       return res.json({
         success: true,
         data:updatedSection,

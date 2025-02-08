@@ -92,7 +92,7 @@ exports.verifyPayment = async (req, res) => {
   let body = razorpay_order_id + "|" + razorpay_payment_id
 
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_SECRET)
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
     .update(body.toString())
     .digest("hex")
 
@@ -222,7 +222,7 @@ const enrollStudents = async (courses, userId, res) => {
 //         }
 
 //         //user already pay for the same course
-//         const uid = new mongoose.Types.ObjectId(userId); // user id bhi string format m thi tho usko objectid me convert kra h because user k model me vo objectid k format me h islye 
+//         const uid = new mongoose.Types.ObjectId(userId); // user id bhi string format m thi tho usko objectid me convert kra h because user k model me vo objectid k format me h islye
 //         if(course.studentsEnrolled.includes(uid)) {
 //             return res.status(200).json({
 //                 success:false,
@@ -237,7 +237,7 @@ const enrollStudents = async (courses, userId, res) => {
 //             message:error.message,
 //         });
 //     }
-    
+
 //     // ab kro final orderrrrrrrrrrr ka kaam
 //     //order create
 //     const amount = course.price;
@@ -317,7 +317,7 @@ const enrollStudents = async (courses, userId, res) => {
 //                  // print kra liya course
 //                 console.log(enrolledCourse);
 
-//                 //find the student and add the course to their list enrolled courses me 
+//                 //find the student and add the course to their list enrolled courses me
 //                 const enrolledStudent = await User.findOneAndUpdate(
 //                                                 {_id:userId},
 //                                                 {$push:{courses:courseId}},
@@ -325,7 +325,7 @@ const enrollStudents = async (courses, userId, res) => {
 //                 );
 //                 console.log(enrolledStudent);
 
-//                 //mail send krdo confirmation wala 
+//                 //mail send krdo confirmation wala
 //                 const emailResponse = await mailSender(
 //                                         enrolledStudent.email,
 //                                         "Congratulations from CodeHelp",
@@ -336,7 +336,7 @@ const enrollStudents = async (courses, userId, res) => {
 //                     success:true,
 //                     message:"Signature Verified and COurse Added to students data...",
 //                 });
-//         }       
+//         }
 //         catch(error) {
 //             console.log(error);
 //             return res.status(500).json({
