@@ -5,7 +5,7 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-// create category ka handler funtion 
+// create category ka handler funtion
 exports.createCategory = async (req, res) => {
 	try {
 
@@ -35,7 +35,7 @@ exports.createCategory = async (req, res) => {
 			message: error.message,
 		});
 	}
-    //abhi course ko ni dala h  models k andar , 
+    //abhi course ko ni dala h  models k andar ,
     // we will make sure ki course create hone pr course k
     //  sth sth tag ko bhi update kru me
 };
@@ -49,28 +49,28 @@ exports.createCategory = async (req, res) => {
 		res.status(200).json({
 			success: true,
 			data: allCategorys,
-		});  
+		});
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
 			message: "could not fetch categoriesssss",
-      
+      error
 		});
 	}
     };
 
 
-//categoryPageDetails  ---- isko thik krna h 
+//categoryPageDetails  ---- isko thik krna h
 exports.categoryPageDetails = async (req, res) => {
     try {
       const { categoryId } = req.body
 
       if (!categoryId) {
         return res.status(400).json({ success: false, message: "Category ID is required" });
-     }     
+     }
 
       console.log("PRINTING CATEGORY ID: ", categoryId);
-      
+
       // Get courses for the specified category
       const selectedCategory = await Category.findById(categoryId)
         .populate({
@@ -79,7 +79,7 @@ exports.categoryPageDetails = async (req, res) => {
           populate: "ratingAndReviews",
         })
         .exec()
-  
+
       //console.log("SELECTED COURSE", selectedCategory)
       // Handle the case when the category is not found
       if (!selectedCategory) {
@@ -96,7 +96,7 @@ exports.categoryPageDetails = async (req, res) => {
           message: "No courses found for the selected category.",
         })
       }
-  
+
       // Get courses for other categories
       const categoriesExceptSelected = await Category.find({
         _id: { $ne: categoryId },
