@@ -26,28 +26,12 @@ database.connect();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = [
-  "http://localhost:3000",  // Localhost frontend
-  "https://study-notion-frontend-l880e0y6r-shreyas-projects-0b4b02f4.vercel.app", // Vercel frontend
-  "https://study-notion-frontend-fr41qigb6-shreyas-projects-0b4b02f4.vercel.app", // Another Vercel frontend
-  "https://study-notion-back.onrender.com", // Your Render backend URL
-];
-
 app.use(
-  cors({
-    origin: function (origin, callback) {
-      console.log('Origin:', origin); // Debugging purpose
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true,
-  })
+	cors({
+		origin: "http://localhost:3000",
+		credentials: true,
+	})
 );
-
 app.use(
 	fileUpload({
 		useTempFiles: true,

@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast"
 
-import { updateCompletedLectures } from "../../slices/viewCourseSlice"
+// import { updateCompletedLectures } from "../../slices/viewCourseSlice"
 // import { setLoading } from "../../slices/profileSlice";
 import { apiConnector } from "../apiconnector"
 import { courseEndpoints } from "../apis"
@@ -87,7 +87,7 @@ export const fetchCourseCategories = async () => {
 
 // add the course details
 export const addCourseDetails = async (data, token) => {
- 
+
   if (!token) {
     console.log(" Token is missing!");
     toast.error("Authentication failed. Please log in again.");
@@ -373,7 +373,7 @@ export const markLectureAsComplete = async (data, token) => {
       console.log("Response error status:", error.response.status);
     }
     toast.error(error.message)
-   
+
   }
   toast.dismiss(toastId)
   result = false

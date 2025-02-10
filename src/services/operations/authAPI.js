@@ -14,13 +14,13 @@ const {
   RESETPASSWORD_API,
 } = endpoints
 
-// ye saare funtion frontend me backend k function ko use krne k liye define kiye gaye h 
+// ye saare funtion frontend me backend k function ko use krne k liye define kiye gaye h
 
 export function sendOtp(email, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
-    try 
+    try
       {
       const response = await apiConnector( "POST", SENDOTP_API, {
         email,
@@ -76,7 +76,7 @@ export function signUp(
       }
       toast.success("Signup Successful")
       navigate("/login")
-    } 
+    }
     catch (error)
      {
       console.log("SIGNUP API ERROR............", error)
@@ -115,7 +115,7 @@ export function login(email, password, navigate) {
       const userImage = userData?.image
         ? userData.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${userData?.firstName || "User"} ${userData?.lastName || ""}`;
-      
+
       // Store User in Redux
       dispatch(setUser({ ...userData, image: userImage }));
 
@@ -127,7 +127,7 @@ export function login(email, password, navigate) {
       navigate("/dashboard/my-profile");
     } catch (error) {
       console.error("LOGIN API ERROR:", error.response?.data || error.message || error);
-      
+
       // Show error message from API if available
       toast.error(error.response?.data?.message || "Login Failed. Please try again.");
     }
@@ -186,7 +186,7 @@ export function resetPassword(password, confirmPassword, token , navigate) {
     const toastId = toast.loading("Loading...")
 
     dispatch(setLoading(true));
-   
+
     try{
       const response = await apiConnector("POST", RESETPASSWORD_API, {password, confirmPassword, token});
 
